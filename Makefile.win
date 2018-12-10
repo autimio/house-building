@@ -1,0 +1,29 @@
+# Project: Project1
+# Makefile created by Dev-C++ 5.4.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = teste.o
+LINKOBJ  = teste.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -static-libstdc++ -static-libgcc -lopengl32 -lglu32  -lglut32 -lwinmm -lgdi32 
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include"
+BIN      = Project1.exe
+CXXFLAGS = $(CXXINCS) -lopengl32 -lglu32  -lglut32 -lwinmm -lgdi32
+CFLAGS   = $(INCS) -lopengl32 -lglu32  -lglut32 -lwinmm -lgdi32
+RM       = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+teste.o: teste.cpp
+	$(CPP) -c teste.cpp -o teste.o $(CXXFLAGS)
