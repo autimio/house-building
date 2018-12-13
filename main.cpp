@@ -6,6 +6,7 @@ int x_ini,y_ini, bot;
 GLfloat obsX, obsY, obsZ, rotX, rotY;
 GLfloat obsX_ini, obsY_ini, obsZ_ini, rotX_ini, rotY_ini;
 GLfloat escalaX, escalaY, escalaZ;
+GLfloat  xAngle = 0.0, yAngle = 0.0, zAngle = 0.0;
 
 #define MAX_NO_TEXTURES 50
 
@@ -17,7 +18,7 @@ GLfloat escalaX, escalaY, escalaZ;
 #define ALTURA_TELHADO 35.0f
 #define ALTURA_TOPO_TELHADO 50.0f
 #define TAMANHO_CASA_X 150.0f
-#define TAMANHO_CASA_Z 90.0f
+#define TAMANHO_CASA_Z 150.0f
 #define TAMANHO_GARAGEM_Z 60.0f
 #define TAMANHO_JANELA_XY 5.0f
 
@@ -50,6 +51,11 @@ void initializeTexture(void) {
 	glBindTexture (GL_TEXTURE_2D, texture_id[3]);
 	image_t temp_image4;
 	tgaLoad("textures/tijolinho_wall_rotate90.tga", &temp_image4, TGA_FREE | TGA_LOW_QUALITY);
+	
+	texture_id[4] = 1005;
+	glBindTexture (GL_TEXTURE_2D, texture_id[4]);
+	image_t temp_image5;
+	tgaLoad("textures/door.tga", &temp_image5, TGA_FREE | TGA_LOW_QUALITY);
 }
 
 void LinhasPlanoCartesiano(void) {
@@ -247,6 +253,37 @@ void buildWall(void){
 	glPopMatrix();
 }
 
+void buildDoors(void)
+{
+	/* Porta Principal*/
+	glBindTexture(GL_TEXTURE_2D,texture_id[4]);
+	glPushMatrix ();
+	glTranslatef ((TAMANHO_CASA_X / 2) - 4, 0.0, (TAMANHO_CASA_Z / 2) + 0.1);
+	glRotatef (yAngle, 0, 1,0);	
+	glTranslatef (-((TAMANHO_CASA_X / 2) - 4), -0.0, -((TAMANHO_CASA_Z / 2) + 0.1));
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 2) - 4, 0.0, TAMANHO_CASA_Z + 0.1);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 2) + 4, 0.0, TAMANHO_CASA_Z + 0.1);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 2) + 4, 12.0, TAMANHO_CASA_Z + 0.1);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 2) - 4, 12.0, TAMANHO_CASA_Z + 0.1);
+	glEnd();
+	glPopMatrix();
+	
+	// Porta 2
+	glPushMatrix();
+		glColor3f(1.0f, 1.0f, 1.0f);
+		glTranslatef ((TAMANHO_CASA_X / 6) - 3, 0.0, TAMANHO_CASA_Z + 0.1);
+		glRotatef (yAngle, 0, 1,0);
+		glTranslatef (-((TAMANHO_CASA_X / 6) - 3), -0.0, -(TAMANHO_CASA_Z + 0.1));
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 6) - 3, 0.0, 50 + 0.1);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 6) + 3, 0.0, 50 + 0.1);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 6) + 3, 10.0, 50 + 0.1);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 6) - 3, 10.0, 50 + 0.1);
+		glEnd();
+	glPopMatrix();
+}
+
 // Callback chamada para fazer o desenho
 void Desenha(void) {
 	// Limpa a janela e o depth buffer
@@ -259,6 +296,7 @@ void Desenha(void) {
 
 	buildFloor();
 	buildWall();
+	buildDoors();
         
 	glutSwapBuffers();
 }
