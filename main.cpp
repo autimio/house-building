@@ -45,12 +45,12 @@ void initializeTexture(void) {
 	texture_id[2] = 1003;
 	glBindTexture (GL_TEXTURE_2D, texture_id[2]);
 	image_t temp_image3;
-	tgaLoad("textures/tijolinho_wall.tga", &temp_image3, TGA_FREE | TGA_LOW_QUALITY);
+	tgaLoad("textures/tijolinho_wall-min.tga", &temp_image3, TGA_FREE | TGA_LOW_QUALITY);
 	
 	texture_id[3] = 1004;
 	glBindTexture (GL_TEXTURE_2D, texture_id[3]);
 	image_t temp_image4;
-	tgaLoad("textures/tijolinho_wall_rotate90.tga", &temp_image4, TGA_FREE | TGA_LOW_QUALITY);
+	tgaLoad("textures/tijolinho_wall_rotate90-min.tga", &temp_image4, TGA_FREE | TGA_LOW_QUALITY);
 	
 	texture_id[4] = 1005;
 	glBindTexture (GL_TEXTURE_2D, texture_id[4]);
@@ -202,6 +202,26 @@ void buildWall(void){
 		glEnd();
 	glPopMatrix();
 	
+	// Parede porta esquerda
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 50);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 0, 50);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 50);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0, ALTURA_TELHADO, 50);
+		glEnd();
+	glPopMatrix();
+	
+	// Parede porta direita
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 0, 150);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 0, 150);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 150);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(100, ALTURA_TELHADO, 150);
+		glEnd();
+	glPopMatrix();
+	
 	//parede lateral esquerda - 1
 	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
 	glPushMatrix();
@@ -219,6 +239,15 @@ void buildWall(void){
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f); glVertex3f(50, 0.0, 50);
 			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, ALTURA_TELHADO, 50);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 100);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(50, 0.0, 100);
+		glEnd();
+	glPopMatrix();	
+
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(50, 0.0,100);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, ALTURA_TELHADO, 100);
 			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 150);
 			glTexCoord2f(0.0f, 1.0f);glVertex3f(50, 0.0, 150);
 		glEnd();
@@ -424,7 +453,7 @@ int main(void) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(600,600);
 	glutInitWindowPosition(250, 100);
-	glutCreateWindow("House Build 3D");
+	glutCreateWindow("House Build 3D - Computação Gráfica - Autímio Brito");
 	initializeTexture();
 	glutDisplayFunc(Desenha);
     glutReshapeFunc(AlteraTamanhoJanela);

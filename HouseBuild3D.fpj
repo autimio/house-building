@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-	<Libs Value="-lopengl32 -lglu32  -lglut32 -lwinmm -lgdi32 "/>
-	<Flags Value="-lopengl32 -lglu32  -lglut32 -lwinmm -lgdi32 "/>
-	<Target Value="Project1.exe"/>
+	<VersionInfo>
+		<VersionNumbers Major="0" Minor="0" Release="0" Build="1"/>
+		<LanguageID Value="1046"/>
+		<CharsetID Value="1252"/>
+		<CompanyName Value=""/>
+		<FileVersion Value=""/>
+		<FileDescription Value=""/>
+		<InternalName Value=""/>
+		<LegalCopyright Value=""/>
+		<LegalTrademarks Value=""/>
+		<OriginalFilename Value=""/>
+		<ProductName Value=""/>
+		<ProductVersion Value=""/>
+		<AutoIncrementBuild Value="Yes"/>
+	</VersionInfo>
+	<Libs Value="-lopengl32 -lglu32 -lglut32 -lwinmm -lgdi32"/>
+	<Flags Value="-lopengl32 -lglu32 -lglut32 -lwinmm -lgdi32"/>
+	<Target Value="HouseBuild3D.exe"/>
 	<CommandLine Value=""/>
 	<CompilerOptions Value=""/>
 	<DeleteObjectsBefore Value="Yes"/>
