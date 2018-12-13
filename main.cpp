@@ -40,6 +40,16 @@ void initializeTexture(void) {
 	glBindTexture (GL_TEXTURE_2D, texture_id[1]);
 	image_t temp_image2;
 	tgaLoad("textures/auxiliar.tga", &temp_image2, TGA_FREE | TGA_LOW_QUALITY);
+	
+	texture_id[2] = 1003;
+	glBindTexture (GL_TEXTURE_2D, texture_id[2]);
+	image_t temp_image3;
+	tgaLoad("textures/tijolinho_wall.tga", &temp_image3, TGA_FREE | TGA_LOW_QUALITY);
+	
+	texture_id[3] = 1004;
+	glBindTexture (GL_TEXTURE_2D, texture_id[3]);
+	image_t temp_image4;
+	tgaLoad("textures/tijolinho_wall_rotate90.tga", &temp_image4, TGA_FREE | TGA_LOW_QUALITY);
 }
 
 void LinhasPlanoCartesiano(void) {
@@ -68,7 +78,7 @@ void LinhasPlanoCartesiano(void) {
 	glPopMatrix();
 }
 
-void buildfloor(void) {	
+void buildFloor(void) {	
 	glBindTexture(GL_TEXTURE_2D, texture_id[0]);
 	
 	//Térreo
@@ -163,7 +173,6 @@ void buildfloor(void) {
 		glEnd();
 	glPopMatrix();
 	
-	//glBindTexture(GL_TEXTURE_2D, texture_id[1]);
 	glPushMatrix();
 		glBegin(GL_QUADS);
 			glColor3f(1.0f,1.0f,1.0f);
@@ -171,6 +180,69 @@ void buildfloor(void) {
 			glTexCoord2f(1.0f, 0.0f); glVertex3f(100, ALTURA_PAREDE, 100);
 			glTexCoord2f(1.0f, 1.0f); glVertex3f(100, ALTURA_PAREDE, 150);
 			glTexCoord2f(0.0f, 1.0f); glVertex3f(50, ALTURA_PAREDE, 150);
+		glEnd();
+	glPopMatrix();
+}
+
+void buildWall(void){
+	glBindTexture(GL_TEXTURE_2D,texture_id[2]);
+	// Parede fundo
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(100, 0.0, 0.0);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(100, ALTURA_TELHADO, 0.0);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0, ALTURA_TELHADO, 0.0);
+		glEnd();
+	glPopMatrix();
+	
+	//parede lateral esquerda - 1
+	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0, 0.0, 0.0);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(0.0, ALTURA_TELHADO, 0.0);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(0.0, ALTURA_TELHADO, 50);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(0.0, 0.0, 50);
+		glEnd();
+	glPopMatrix();	
+	
+	//parede lateral esquerda - 2
+	glBindTexture(GL_TEXTURE_2D, texture_id[3]);
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(50, 0.0, 50);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, ALTURA_TELHADO, 50);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 150);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(50, 0.0, 150);
+		glEnd();
+	glPopMatrix();	
+	
+	//parede lateral direita	
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 0.0, 0);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(100, ALTURA_TELHADO, 0);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(100, ALTURA_TELHADO, 50);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(100, 0.0, 50);
+		glEnd();
+	glPopMatrix();
+	
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 0.0, 50);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(100, ALTURA_TELHADO, 50);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(100, ALTURA_TELHADO, 100);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(100, 0.0, 100);
+		glEnd();
+	glPopMatrix();
+	
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 0.0, 100);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(100, ALTURA_TELHADO, 100);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(100, ALTURA_TELHADO, 150);
+			glTexCoord2f(0.0f, 1.0f);glVertex3f(100, 0.0, 150);
 		glEnd();
 	glPopMatrix();
 }
@@ -185,7 +257,8 @@ void Desenha(void) {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	buildfloor();
+	buildFloor();
+	buildWall();
         
 	glutSwapBuffers();
 }
@@ -196,35 +269,29 @@ void Inicializa (void) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	GLfloat luzAmbiente[4] = {0.5,0.5,0.5,1.0}; 
-	GLfloat luzDifusa[4] = {0.7,0.7,0.7,1.0};		  // "cor" 
-	GLfloat luzEspecular[4] = {1.0, 1.0, 1.0, 1.0};   // "brilho" 
+	GLfloat luzDifusa[4] = {0.7,0.7,0.7,1.0};	   // "cor" 
+	GLfloat luzEspecular[4] = {1.0, 1.0, 1.0, 1.0};// "brilho" 
 	GLfloat posicaoLuz[4] = {0.0, 0.0, 10.0, 0.0};
-
-	// Capacidade de brilho do material
-	GLfloat especularidade[4] = {1.0,1.0,1.0,1.0}; 
+	GLfloat especularidade[4] = {1.0,1.0,1.0,1.0}; // Capacidade de brilho do material
 	GLint especMaterial = 0;
-
- 	// Especifica que a cor de fundo da janela ser? preta
-    // glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
 	
+ 	// Especifica que a cor de fundo da janela ser? preta
+	glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
 	// Habilita o modelo de colorizaï¿½ï¿½o de Gouraud
 	glShadeModel(GL_SMOOTH);
-
 	// Define a refletï¿½ncia do material
 	glMaterialfv(GL_FRONT, GL_SPECULAR, especularidade);
 	// Define a concentraï¿½ï¿½o do brilho
 	glMateriali(GL_FRONT, GL_SHININESS, especMaterial);
-
 	// Ativa o uso da luz ambiente 
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
-
+	
 	// Define os par?metros da luz de n?mero 0
 	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente); 
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa );
 	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
-
+	
 	// Habilita a definiï¿½ï¿½o da cor do material a partir da cor corrente
 	glEnable(GL_COLOR_MATERIAL);
 	//Habilita o uso de iluminaï¿½ï¿½o
