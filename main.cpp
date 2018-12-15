@@ -70,29 +70,82 @@ void initializeTexture(void) {
 }
 
 void LinhasPlanoCartesiano(void) {
+	
+	//linha 1 vertical fundo
 	glPushMatrix();
-		glColor3f(0.9, 0.9, 0.9);
+		glColor3f(1.0, 1.0, 1.0);
 		glBegin(GL_LINES);
 		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 300.0, 0.0);
+		glVertex3f(0.0, 35.0, 0.0);
 		glEnd();
+		glLineWidth(4.0f);
+	glPopMatrix();
+	
+	//linha 2 vertical fundo
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_LINES);
+		glVertex3f(100.0, 0.0, 0.0);
+		glVertex3f(100.0, 35.0, 0.0);
+		glEnd();
+		glLineWidth(4.0f);
+	glPopMatrix();
+	
+	//linha 3 vertical esquerda porta
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_LINES);
+		glVertex3f(0.0, 0.0, 50.0);
+		glVertex3f(0.0, 35.0, 50.0);
+		glEnd();
+		glLineWidth(4.0f);
+	glPopMatrix();
+	
+	//linha 3 vertical direita porta
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_LINES);
+		glVertex3f(50.0, 0.0, 50.0);
+		glVertex3f(50, 35.0, 50.0);
+		glEnd();
+		glLineWidth(4.0f);
+	glPopMatrix();
+	
+	//linha 3 vertical esqera porta principal
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_LINES);
+		glVertex3f(50.0, 0.0, 150.0);
+		glVertex3f(50, 35.0, 150.0);
+		glEnd();
+		glLineWidth(4.0f);
+	glPopMatrix();
+	
+	//linha 3 vertical esquerda porta principal
+	glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glBegin(GL_LINES);
+		glVertex3f(100.0, 0.0, 150.0);
+		glVertex3f(100, 35.0, 150.0);
+		glEnd();
+		glLineWidth(4.0f);
 	glPopMatrix();
 
-	glPushMatrix();
-		glColor3f(0.9, 0.9, 0.9);
-		glBegin(GL_LINES);
-		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(300.0, 0.0, 0.0);
-		glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-		glColor3f(0.9, 0.9, 0.9);
-		glBegin(GL_LINES);
-		glVertex3f(0.0, 0.0, 0.0);
-		glVertex3f(0.0, 0.0, 300.0);
-		glEnd();
-	glPopMatrix();
+	// glPushMatrix();
+	// 	glColor3f(0.9, 0.9, 0.9);
+	// 	glBegin(GL_LINES);
+	// 	glVertex3f(0.0, 0.0, 0.0);
+	// 	glVertex3f(150.0, 0.0, 0.0);
+	// 	glEnd();
+	// glPopMatrix();
+// 
+	// glPushMatrix();
+	// 	glColor3f(0.9, 0.9, 0.9);
+	// 	glBegin(GL_LINES);
+	// 	glVertex3f(0.0, 0.0, 0.0);
+	// 	glVertex3f(0.0, 0.0, 150.0);
+	// 	glEnd();
+	// glPopMatrix();
 }
 
 void buildFloorHouse(void) {	
@@ -331,8 +384,7 @@ void buildWall(void){
 	glPopMatrix();
 }
 
-void buildDoors(void)
-{
+void buildDoors(void) {
 	/* Porta Principal*/
 	glBindTexture(GL_TEXTURE_2D,texture_id[4]);
 	glPushMatrix ();
