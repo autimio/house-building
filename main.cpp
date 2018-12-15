@@ -7,6 +7,7 @@ GLfloat obsX, obsY, obsZ, rotX, rotY;
 GLfloat obsX_ini, obsY_ini, obsZ_ini, rotX_ini, rotY_ini;
 GLfloat escalaX, escalaY, escalaZ;
 GLfloat  xAngle = 0.0, yAngle = 0.0, zAngle = 0.0;
+GLUquadricObj * quadObj = gluNewQuadric();
 
 #define MAX_NO_TEXTURES 50
 
@@ -56,6 +57,16 @@ void initializeTexture(void) {
 	glBindTexture (GL_TEXTURE_2D, texture_id[4]);
 	image_t temp_image5;
 	tgaLoad("textures/door.tga", &temp_image5, TGA_FREE | TGA_LOW_QUALITY);
+	
+	texture_id[5] = 1006;
+	glBindTexture (GL_TEXTURE_2D, texture_id[5]);
+	image_t temp_image6;
+	tgaLoad("textures/tijolinho_wall-min-frente.tga", &temp_image6, TGA_FREE | TGA_LOW_QUALITY);
+	
+	texture_id[6] = 1007;
+	glBindTexture (GL_TEXTURE_2D, texture_id[6]);
+	image_t temp_image7;
+	tgaLoad("textures/floor_hex.tga", &temp_image7, TGA_FREE | TGA_LOW_QUALITY);
 }
 
 void LinhasPlanoCartesiano(void) {
@@ -84,7 +95,7 @@ void LinhasPlanoCartesiano(void) {
 	glPopMatrix();
 }
 
-void buildFloor(void) {	
+void buildFloorHouse(void) {	
 	glBindTexture(GL_TEXTURE_2D, texture_id[0]);
 	
 	//Térreo
@@ -205,20 +216,58 @@ void buildWall(void){
 	// Parede porta esquerda
 	glPushMatrix();
 		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 50);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 0, 50);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 12, 50);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 12, 50);
 			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 50);
 			glTexCoord2f(0.0f, 1.0f); glVertex3f(0, ALTURA_TELHADO, 50);
+		glEnd();
+	glPopMatrix();
+	
+	glBindTexture(GL_TEXTURE_2D,texture_id[5]);
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(0, 0, 50);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(22, 0, 50);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(22, 12, 50);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(0, 12, 50);
+		glEnd();
+	glPopMatrix();
+	
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(28, 0, 50);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 0, 50);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, 12, 50);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(28, 12, 50);
 		glEnd();
 	glPopMatrix();
 	
 	// Parede porta direita
 	glPushMatrix();
 		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 0, 150);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 0, 150);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 12, 150);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 12, 150);
 			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, ALTURA_TELHADO, 150);
 			glTexCoord2f(0.0f, 1.0f); glVertex3f(100, ALTURA_TELHADO, 150);
+		glEnd();
+	glPopMatrix();
+	
+	glBindTexture(GL_TEXTURE_2D,texture_id[5]);
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(71, 0, 150);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(50, 0, 150);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(50, 12, 150);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(71, 12, 150);
+		glEnd();
+	glPopMatrix();
+	
+	glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f(100, 0, 150);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f(79, 0, 150);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f(79, 12, 150);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f(100, 12, 150);
 		glEnd();
 	glPopMatrix();
 	
@@ -287,30 +336,59 @@ void buildDoors(void)
 	/* Porta Principal*/
 	glBindTexture(GL_TEXTURE_2D,texture_id[4]);
 	glPushMatrix ();
-	glTranslatef ((TAMANHO_CASA_X / 2) - 4, 0.0, (TAMANHO_CASA_Z / 2) + 0.1);
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glTranslatef ((TAMANHO_CASA_X / 2) - 4, 0.0, TAMANHO_CASA_Z  + 0.1);
 	glRotatef (yAngle, 0, 1,0);	
 	glTranslatef (-((TAMANHO_CASA_X / 2) - 4), -0.0, -((TAMANHO_CASA_Z / 2) + 0.1));
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 2) - 4, 0.0, TAMANHO_CASA_Z + 0.1);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 2) + 4, 0.0, TAMANHO_CASA_Z + 0.1);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 2) + 4, 12.0, TAMANHO_CASA_Z + 0.1);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 2) - 4, 12.0, TAMANHO_CASA_Z + 0.1);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 2) - 4, 0.0, (TAMANHO_CASA_Z / 2) + 0.1);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 2) + 4, 0.0, (TAMANHO_CASA_Z / 2) + 0.1);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 2) + 4, 12.0, (TAMANHO_CASA_Z / 2) + 0.1);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 2) - 4, 12.0, (TAMANHO_CASA_Z / 2) + 0.1);
 	glEnd();
 	glPopMatrix();
 	
-	// Porta 2
+	//Porta 2
 	glPushMatrix();
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glTranslatef ((TAMANHO_CASA_X / 6) - 3, 0.0, TAMANHO_CASA_Z + 0.1);
+		glTranslatef ((TAMANHO_CASA_X / 6) - 3, 0.0, 50 + 0.1);
 		glRotatef (yAngle, 0, 1,0);
-		glTranslatef (-((TAMANHO_CASA_X / 6) - 3), -0.0, -(TAMANHO_CASA_Z + 0.1));
+		glTranslatef (-((TAMANHO_CASA_X / 6) - 3), -0.0, -((TAMANHO_CASA_Z / 2) + 0.1));
 		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 6) - 3, 0.0, 50 + 0.1);
-			glTexCoord2f(1.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 6) + 3, 0.0, 50 + 0.1);
-			glTexCoord2f(1.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 6) + 3, 10.0, 50 + 0.1);
-			glTexCoord2f(0.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 6) - 3, 10.0, 50 + 0.1);
+			glTexCoord2f(0.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 6) - 3, 0.0, (TAMANHO_CASA_Z / 2) + 0.1);
+			glTexCoord2f(1.0f, 0.0f); glVertex3f((TAMANHO_CASA_X / 6) + 3, 0.0, (TAMANHO_CASA_Z / 2) + 0.1);
+			glTexCoord2f(1.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 6) + 3, 12.0,(TAMANHO_CASA_Z / 2) + 0.1);
+			glTexCoord2f(0.0f, 1.0f); glVertex3f((TAMANHO_CASA_X / 6) - 3, 12.0, (TAMANHO_CASA_Z / 2) + 0.1);
 		glEnd();
 	glPopMatrix();
+}
+
+void buildFloorTerrace(void) {
+	glBindTexture(GL_TEXTURE_2D,texture_id[6]);
+	glPushMatrix();
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(-50.0, -0.01, -10.0);
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(230, -0.01, -10.0);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(230, -0.01, 230);
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(-50.0, -0.01, 230);
+		glEnd();
+	glPopMatrix();
+}
+
+static void key(unsigned char key, int x, int y) {
+	switch (key) {
+		//	abre a porta
+		case 'd' :		
+			if(yAngle <= 90)
+				yAngle += 15;
+			break;
+		//fecha a porta
+		case 'e' :
+			if(yAngle >= 0)
+				yAngle -= 15;
+			break;
+	}
+	glutPostRedisplay();
 }
 
 // Callback chamada para fazer o desenho
@@ -323,9 +401,11 @@ void Desenha(void) {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	buildFloor();
+	buildFloorHouse();
 	buildWall();
 	buildDoors();
+	//buildVaranda();
+	buildFloorTerrace();
         
 	glutSwapBuffers();
 }
@@ -381,16 +461,12 @@ void EspecificaParametrosVisualizacao(void) {  //equivalente ao posiciona observ
 	glMatrixMode(GL_PROJECTION);
 	// Inicializa sistema de coordenadas de projeï¿½ï¿½o
 	glLoadIdentity();
-
 	// Especifica a projeï¿½ï¿½o perspectiva
-	//gluPerspective(angle,fAspect,0.4,500);
 	gluPerspective(ANGULO, ASPECTO, 0.4, 500);
-
 	// Especifica sistema de coordenadas do modelo
 	glMatrixMode(GL_MODELVIEW);
 	// Inicializa sistema de coordenadas do modelo
 	glLoadIdentity();
-
 	// Especifica posiï¿½ï¿½o do observador e do alvo
 	gluLookAt(obsX, obsY, obsZ, 0, 0, 0, 0, 1, 0);
 	glTranslatef(-obsX, -obsY, -obsZ);/*Translada a cï¿½mera para essas variï¿½veis*/
@@ -398,20 +474,18 @@ void EspecificaParametrosVisualizacao(void) {  //equivalente ao posiciona observ
 	glRotatef(rotY, 0, 1, 0);
 }
 
-// Fun??o callback chamada quando o tamanho da janela ? alterado 
+// Funçãocallback chamada quando o tamanho da janela ? alterado 
 void AlteraTamanhoJanela(GLsizei w, GLsizei h) {
 	// Para previnir uma divis?o por zero
 	if ( h == 0 ) h = 1;
-
 	// Especifica o tamanho da viewport
     glViewport(0, 0, w, h);
- 
 	// Calcula a corre??o de aspecto
 	ASPECTO = (GLfloat)w/(GLfloat)h;
 	EspecificaParametrosVisualizacao();
 }
 
-// Fun??o callback chamada para gerenciar eventos do mouse
+// Função callback chamada para gerenciar eventos do mouse
 void GerenciaMouse(int button, int state, int x, int y) {
 	if (state == GLUT_DOWN) {
 		x_ini = x;
@@ -423,7 +497,6 @@ void GerenciaMouse(int button, int state, int x, int y) {
         rotY_ini = rotY;
 		bot = button;
 	} else bot = -1;
-
 	EspecificaParametrosVisualizacao();
 	glutPostRedisplay();
 }
@@ -443,7 +516,6 @@ void motion(int x, int y) {
 		obsX = obsX_ini + deltaX/ SENS_TRANS;
 		obsY = obsY_ini + deltaY/ SENS_TRANS;
 	}
-
 	EspecificaParametrosVisualizacao();
 	glutPostRedisplay();
 }
@@ -459,6 +531,7 @@ int main(void) {
     glutReshapeFunc(AlteraTamanhoJanela);
 	glutMouseFunc(GerenciaMouse);
 	glutMotionFunc(motion);
+    glutKeyboardFunc(key);	
 	Inicializa();
 	glutMainLoop();
 }
